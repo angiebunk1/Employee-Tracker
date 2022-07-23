@@ -76,15 +76,57 @@ const displayDept = () => {
 
 // display roles
 
-// const displayRoles()
+const displayRoles = () => {
+    const sql = "SELECT * FROM role";
 
-// //display employees
+    db.query(sql, (err, rows) => {
+       if (err) {
+         console.table(err);
+       }
+       console.table(rows)
+   })   
+    
+}
 
-// const dispalyEmps()
+//display employees
 
-// // add Department
+const displayEmps = () => {
+    const sql = "SELECT * FROM employee";
 
-// const addDept()
+    db.query(sql, (err, rows) => {
+       if (err) {
+         console.table(err);
+       }
+       console.table(rows)
+   })   
+    
+}
+
+// add Department: this function not currently working 
+
+const addDept = () => {
+    inquirer.prompt({
+        type: 'input',
+        name: 'newDept',
+        message: 'What is the name of the department you want to add?',
+    })
+    .then((response) => {
+        // need to figure out how to put the value in here
+    const sql = "INSERT INTO department (name) VALUES (response)";
+    
+
+
+    db.query(sql, (err, result) => {
+           if (err) {
+             console.table(err);
+           }
+           console.table(result)
+       })   
+    })
+}
+
+     
+
 
 // // add role
 
