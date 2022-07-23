@@ -1,19 +1,18 @@
 const inquirer = require('inquirer');
-const db = require('./db/connection');
 const cTable = require('console.table');
-const Connection = require('mysql2/typings/mysql/lib/Connection');
+const mysql = require('mysql2');
 
-// port? 
 
-// app listener? 
+require('dotenv').config();
 
-// apis? routes? Maybe not since we're not using express? 
+const db = 
+    mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PW,
+        database: process.env.DB_NAME
+    });
 
-// should I make another file for queries?  If so, is this the same as routes or different? How do I connect them to server?
-
-// how do we initiate the first prompt? Call it at end? 
-
-// how do I see the database?
 
 const initialPrompt = () => {
     inquirer.prompt({
@@ -55,11 +54,48 @@ const initialPrompt = () => {
                 updateEmp();
                 break;
             case 'Quit':
-                connection.end();
+                process.exit();
                 break;
         }
     })
 }
 
+// Display departments
 
+const displayDept = () => {
+     const sql = "SELECT * FROM department";
 
+     db.query(sql, (err, rows) => {
+        if (err) {
+          console.table(err);
+        }
+        console.table(rows)
+    })   
+     
+}
+
+// display roles
+
+// const displayRoles()
+
+// //display employees
+
+// const dispalyEmps()
+
+// // add Department
+
+// const addDept()
+
+// // add role
+
+// const addRole()
+
+// // add employee
+
+// const addEmp()
+
+// // update employee
+
+// const updateEmp()
+
+initialPrompt();
