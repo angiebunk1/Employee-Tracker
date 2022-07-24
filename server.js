@@ -123,7 +123,7 @@ const addDept = () => {
 };    
 
 
- // add role still running into problems with this one
+ // add role 
 
 const addRole = () => {
     inquirer.prompt([
@@ -135,7 +135,7 @@ const addRole = () => {
     {
         type: 'number',
         name: 'newSalary',
-        message: 'What is the salary for this role?'
+        message: 'What is the salary for this role?',
     },
     {
         type: 'list',
@@ -149,19 +149,20 @@ const addRole = () => {
     }])
     .then((response) => {
     const sql = "INSERT INTO role (title, salary, department_id) VALUES (?,?,?)";
+    const newValues = [response.newRole, response.newSalary, response.chooseDept];
 
-    db.query(sql, response.newRole, response.newSalary, response.chooseDept, (err) => {
+    db.query(sql, newValues, (err, result) => {
            if (err) {
                 console.table(err);
            }
-           console.table(role)
+           console.table(result)
        })   
    })
 }
 
-// // add employee
+// add employee
 
-// const addEmp()
+const addEmp()
 
 // // update employee
 
