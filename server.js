@@ -102,35 +102,62 @@ const displayEmps = () => {
     
 }
 
-// add Department: this function not currently working 
+// add Department
 
 const addDept = () => {
-    inquirer.prompt({
+    inquirer.prompt([{
         type: 'input',
         name: 'newDept',
-        message: 'What is the name of the department you want to add?',
-    })
+        message: 'What is the name of the department you want to add?'
+    }])
     .then((response) => {
-        // need to figure out how to put the value in here
-    const sql = "INSERT INTO department (name) VALUES (response)";
-    
+    const sql = "INSERT INTO department (name) VALUES (?)";
 
-
-    db.query(sql, (err, result) => {
+    db.query(sql, response.newDept, (err, result) => {
            if (err) {
              console.table(err);
            }
            console.table(result)
        })   
     })
+};    
+
+
+ // add role still running into problems with this one
+
+const addRole = () => {
+    inquirer.prompt([
+        {
+        type: 'input',
+        name: 'newRole',
+        message: 'What is the name of the role you want to add?'
+    },
+    {
+        type: 'number',
+        name: 'newSalary',
+        message: 'What is the salary for this role?'
+    },
+    {
+        type: 'list',
+        name: 'chooseDept',
+        message: 'What department is this role assigned to?',
+        choices: [
+            1,
+            2,
+            3
+        ]
+    }])
+    .then((response) => {
+    const sql = "INSERT INTO role (title, salary, department_id) VALUES (?,?,?)";
+
+    db.query(sql, response.newRole, response.newSalary, response.chooseDept, (err) => {
+           if (err) {
+                console.table(err);
+           }
+           console.table(role)
+       })   
+   })
 }
-
-     
-
-
-// // add role
-
-// const addRole()
 
 // // add employee
 
