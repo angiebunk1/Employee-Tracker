@@ -158,14 +158,97 @@ const addRole = () => {
            console.table(result)
        })   
    })
-}
+};
+
+
 
 // add employee
 
-const addEmp()
+const addEmp = () => {
+    inquirer.prompt([
+        {
+        type: 'input',
+        name: 'newFirst',
+        message: 'What is the first name of the employee?'
+    },
+    {
+        type: 'input',
+        name: 'newLast',
+        message: 'What is the last name of the employee?',
+    },
+    {
+        type: 'list',
+        name: 'chooseRole',
+        message: 'Which role is the employee assigned to?',
+        choices: [
+            1,
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        type: 'list',
+        name: 'chooseManager',
+        message: 'Which manager is the employee working under?',
+        choices: [
+            1,
+            2
+        ]
+    }
+])
+    .then((response) => {
+    const sql = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)";
+    const empValues = [response.newFirst, response.newLast, response.chooseRole, response.chooseManager];
 
-// // update employee
+    db.query(sql, empValues, (err, result) => {
+           if (err) {
+                console.table(err);
+           }
+           console.table(result)
+       })   
+   })
+};
 
-// const updateEmp()
+// update employee
+
+const updateEmp = () => {
+    inquirer.prompt([
+    {
+        type: 'list',
+        name: 'chooseEmp',
+        message: 'What is the id of the employee you want to update?',
+        choices: [
+            1,
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        type: 'list',
+        name: 'newRole',
+        message: 'Which role do you want to change them to?',
+        choices: [
+            1,
+            2,
+            3,
+            4
+        ]
+    }
+])
+.then((response) => {
+    const sql = "UPDATE employee SET role_id = ? WHERE id = ?";
+    const newValues = [response.newRole, response.chooseEmp];
+
+    db.query(sql, newValues, (err, result) => {
+           if (err) {
+                console.table(err);
+           }
+           console.table(result)
+       })   
+   })
+    
+};
 
 initialPrompt();
